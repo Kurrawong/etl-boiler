@@ -37,7 +37,7 @@ def observation(
     return g
 
 
-def interval(subject: URIRef, start: Literal, end: Literal):
+def temporal_interval(subject: URIRef, start: Literal, end: Literal):
     g = Graph
     if any([isnull(subject), isnull(start), isnull(end)]):
         return g

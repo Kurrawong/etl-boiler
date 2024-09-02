@@ -113,16 +113,19 @@ def get_iris(
     return uris
 
 
-def iri_normalize(text: str) -> str:
+def iri_normalize(text: str, replacement_char: str = "-") -> str:
     """Remove illegal URL characters from a string."""
     # as per section 2.3 of https://www.ietf.org/rfc/rfc3986.txt
     legal_chars = string.ascii_letters + string.digits + "-" + "_" + "." + "~"
-    # replace illegal characters with a dash
     for char in text:
         if char not in legal_chars:
-            text = text.replace(char, "-")
-    # clean up leading / trailing / repeated dashes
-    text = re.sub(r"-+", "-", text).lstrip("-").rstrip("-")
+            text = text.replace(char, replacement_char)
+    # clean up leading / trailing / repeated replacement_char
+    text = (
+        re.sub(rf"{replacement_char}+", replacement_char, text)
+        .lstrip(replacement_char)
+        .rstrip(replacement_char)
+    )
     return text
 
 
@@ -131,8 +134,8 @@ def isnull(text: str) -> bool:
     if not text:
         return True
     text = text.strip().lower()
-    nas = ["na", "null", "nan", "n.a", "n.d.", "n/a"]
-    if text in nas or text == "":
+    nulls = ["na", "null", "nan", "n.a", "n.d.", "n/a"]
+    if text in nulls or text == "":
         return True
     return False
 

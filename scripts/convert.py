@@ -12,7 +12,7 @@ from utils import SCM, get_iris, get_literals, write_progress
 
 def convert(source: Path, id_col: int | None = 0) -> Graph:
     g = Graph()
-    simple_mappings = [
+    simple_mappings: list[SCM] = [
         SCM(col=1, predicate=DCTERMS.title, obj_func=lambda x: get_literals(x)),
         SCM(col=2, predicate=DCTERMS.description, obj_func=lambda x: get_literals(x)),
         SCM(
