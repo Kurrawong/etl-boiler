@@ -1,0 +1,4 @@
+id,title,description,author,created,rating,reviewer,comments
+1,large book,a large blue book,lawson,2024,5,steve,great book loved it.
+2,small book,a small green book,lawson||sophie,1981,3.5,bernice,enjoyable but I wouldn't read it again.
+3,medium book,a medium red book,lawson lewis,2013,1,carol,absolute garbage.

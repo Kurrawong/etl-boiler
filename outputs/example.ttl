@@ -1,0 +1,56 @@
+@base <http://example.com/dataset/112-222-333/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix roles: <http://example.com/roles/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix vocab: <http://example.com/vocab/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<3ca438b4-2927-49b2-9715-ef69e447306f> a dcat:Resource ;
+    dcterms:created "2013"^^xsd:gYear ;
+    dcterms:creator <lawson-lewis> ;
+    dcterms:description "a medium red book"^^xsd:string ;
+    dcterms:isPartOf <http://example.com/dataset/112-222-333> ;
+    dcterms:title "medium book"^^xsd:string ;
+    prov:qualifiedAssociation [ a prov:Association ;
+            dcat:hadRole roles:reviewer ;
+            prov:agent <carol> ] ;
+    sosa:isFeatureOfInterestOf [ a sosa:Observation ;
+            sosa:hasResult [ a sosa:Result ;
+                    qudt:numericValue "1.0"^^xsd:float ;
+                    qudt:unit vocab:stars ] ;
+            sosa:observedProperty <3ca438b4-2927-49b2-9715-ef69e447306f/rating> ] .
+
+<822de62e-027c-416a-9376-1f3068ff6b2c> a dcat:Resource ;
+    dcterms:created "1981"^^xsd:gYear ;
+    dcterms:creator <lawson>,
+        <sophie> ;
+    dcterms:description "a small green book"^^xsd:string ;
+    dcterms:isPartOf <http://example.com/dataset/112-222-333> ;
+    dcterms:title "small book"^^xsd:string ;
+    prov:qualifiedAssociation [ a prov:Association ;
+            dcat:hadRole roles:reviewer ;
+            prov:agent <bernice> ] ;
+    sosa:isFeatureOfInterestOf [ a sosa:Observation ;
+            sosa:hasResult [ a sosa:Result ;
+                    qudt:numericValue "3.5"^^xsd:float ;
+                    qudt:unit vocab:stars ] ;
+            sosa:observedProperty <822de62e-027c-416a-9376-1f3068ff6b2c/rating> ] .
+
+<8c29ef31-ed3e-4c73-ab39-7f0c62977738> a dcat:Resource ;
+    dcterms:created "2024"^^xsd:gYear ;
+    dcterms:creator <lawson> ;
+    dcterms:description "a large blue book"^^xsd:string ;
+    dcterms:isPartOf <http://example.com/dataset/112-222-333> ;
+    dcterms:title "large book"^^xsd:string ;
+    prov:qualifiedAssociation [ a prov:Association ;
+            dcat:hadRole roles:reviewer ;
+            prov:agent <steve> ] ;
+    sosa:isFeatureOfInterestOf [ a sosa:Observation ;
+            sosa:hasResult [ a sosa:Result ;
+                    qudt:numericValue "5.0"^^xsd:float ;
+                    qudt:unit vocab:stars ] ;
+            sosa:observedProperty <8c29ef31-ed3e-4c73-ab39-7f0c62977738/rating> ] .
+
