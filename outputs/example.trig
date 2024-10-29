@@ -1,0 +1,73 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <http://qudt.org/schema/qudt/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/graphs/example> {
+    <http://example.com/dataset/example-dataset/1> a dcat:Resource ;
+        dcterms:created "2024"^^xsd:gYear ;
+        dcterms:creator <lawson> ;
+        dcterms:description "a large blue book"^^xsd:string ;
+        dcterms:isPartOf <http://example.com/dataset/example-dataset> ;
+        dcterms:title "large book"^^xsd:string ;
+        prov:qualifiedAssociation _:N6bb3dfd9bd764d0597b1db7dca4ec304 ;
+        sosa:isFeatureOfInterestOf _:Nbf76ac4322ed451fa99e7bb65c46db13 .
+
+    <http://example.com/dataset/example-dataset/2> a dcat:Resource ;
+        dcterms:created "1981"^^xsd:gYear ;
+        dcterms:creator <lawson>,
+            <sophie> ;
+        dcterms:description "a small green book"^^xsd:string ;
+        dcterms:isPartOf <http://example.com/dataset/example-dataset> ;
+        dcterms:title "small book"^^xsd:string ;
+        prov:qualifiedAssociation _:N25aeccebb7d54f4793d6f75632c7072c ;
+        sosa:isFeatureOfInterestOf _:Nf4475fb2d4e3486fb1d13bae5fbc0d8c .
+
+    <http://example.com/dataset/example-dataset/3> a dcat:Resource ;
+        dcterms:created "2013"^^xsd:gYear ;
+        dcterms:creator <lawson-lewis> ;
+        dcterms:description "a medium red book"^^xsd:string ;
+        dcterms:isPartOf <http://example.com/dataset/example-dataset> ;
+        dcterms:title "medium book"^^xsd:string ;
+        prov:qualifiedAssociation _:N17ed722388a046dbb59aa7f229ba5685 ;
+        sosa:isFeatureOfInterestOf _:N6b0884a8fb5c4702a1f48c0ef6143278 .
+
+    _:N0df3d080e1c8428ab2849aa92798a6d9 a sosa:Result ;
+        ns1:numericValue "3.5"^^xsd:float ;
+        ns1:unit <http://example.com/vocab/stars> .
+
+    _:N17ed722388a046dbb59aa7f229ba5685 a prov:Association ;
+        dcat:hadRole <http://example.com/roles/reviewer> ;
+        prov:agent <carol> .
+
+    _:N25aeccebb7d54f4793d6f75632c7072c a prov:Association ;
+        dcat:hadRole <http://example.com/roles/reviewer> ;
+        prov:agent <bernice> .
+
+    _:N378517dee5ea4c799ea0e508bf4fa244 a sosa:Result ;
+        ns1:numericValue "1.0"^^xsd:float ;
+        ns1:unit <http://example.com/vocab/stars> .
+
+    _:N6b0884a8fb5c4702a1f48c0ef6143278 a sosa:Observation ;
+        sosa:hasResult _:N378517dee5ea4c799ea0e508bf4fa244 ;
+        sosa:observedProperty <http://example.com/dataset/example-dataset/3/rating> .
+
+    _:N6bb3dfd9bd764d0597b1db7dca4ec304 a prov:Association ;
+        dcat:hadRole <http://example.com/roles/reviewer> ;
+        prov:agent <steve> .
+
+    _:Nac209f5120264e2989094c30e8cc403c a sosa:Result ;
+        ns1:numericValue "5.0"^^xsd:float ;
+        ns1:unit <http://example.com/vocab/stars> .
+
+    _:Nbf76ac4322ed451fa99e7bb65c46db13 a sosa:Observation ;
+        sosa:hasResult _:Nac209f5120264e2989094c30e8cc403c ;
+        sosa:observedProperty <http://example.com/dataset/example-dataset/1/rating> .
+
+    _:Nf4475fb2d4e3486fb1d13bae5fbc0d8c a sosa:Observation ;
+        sosa:hasResult _:N0df3d080e1c8428ab2849aa92798a6d9 ;
+        sosa:observedProperty <http://example.com/dataset/example-dataset/2/rating> .
+}
+

@@ -1,4 +1,9 @@
-import difflib
+"""Helper classes and functions
+
+common utilities that may help to conform to various standards
+(like URL normalization, etc)
+"""
+
 import re
 import string
 
@@ -17,27 +22,6 @@ class SCM:
         self.col = col
         self.predicate = predicate
         self.obj_func = obj_func
-
-
-def fuzzy_match(
-    input_string: str, list_of_strings: list[str], threshold: int = 0.93
-) -> list[tuple]:
-    """Get a list of potential duplicates using pythons sequence matcher.
-
-    :param input_string: the string to search for.
-    :param list_of_strings: a list of strings to search for duplicates in.
-    :param theshold: similarity threshold [0-1].
-    :returns: A list of tuples containing potential matches and their similarity score.
-    """
-    matches = []
-    for candidate in list_of_strings:
-        sm = difflib.SequenceMatcher(None, input_string, candidate)
-        upper_bound = sm.real_quick_ratio()
-        if upper_bound > threshold:
-            ratio = sm.ratio()
-            if ratio > threshold:
-                matches.append((candidate, ratio))
-    return matches
 
 
 def get_literals(
@@ -129,33 +113,20 @@ def iri_normalize(text: str, replacement_char: str = "-") -> str:
     return text
 
 
-def isnull(text: str) -> bool:
-    """check if a cell is some representation of null"""
-    if not text:
+def isnull(obj, any: bool = False) -> bool:
+    """check if obj or any of if its members are null"""
+    if not obj:
         return True
-    text = text.strip().lower()
     nulls = ["na", "null", "nan", "n.a", "n.d.", "n/a"]
-    if text in nulls or text == "":
+    if isinstance(obj, str):
+        obj = [obj]
+    null_count = 0
+    for member in obj:
+        member = member.strip().lower()
+        if member in nulls or member == "":
+            if any:
+                return True
+            null_count += 1
+    if not any and null_count == len(obj):
         return True
     return False
-
-
-def write_progress(i: int, total: int | None = None, message: str = "") -> None:
-    """Write progress to stdout.
-
-    :param i: number of thing currently being processed.
-    :param total: total number of things to be processed.
-    :param message: a description of the task being done.
-    """
-    if total:
-        pc_complete = round((i / total) * 100)
-    else:
-        pc_complete = "?"
-    print(
-        f"    {message}: [{str(pc_complete).center(5)}% ] {str(i).rjust(len(str(total)))}/{total if total else '?'}",
-        end="\r",
-        flush=True,
-    )
-    if total and i == total:
-        print("\n", end="")
-    return

@@ -1,13 +1,25 @@
+"""Main conversion script
+
+This script should be the main point of entry for the conversion process.
+
+It will take a CSV file as input and convert it into a RDF dataset.
+"""
+
 import csv
+import logging
 from pathlib import Path
 from uuid import uuid4
 
 from dirs import input_dir, output_dir
-from namespaces import BASE, DS, ROLES, VOCAB, graph
+from logs import setup_logging
+from namespaces import BASE, DS, NAMED_GRAPH, ROLES, VOCAB, ns_graph
 from patterns import observation, qualified_association
-from rdflib import Graph, Literal, URIRef
+from rdflib import Dataset, Graph, Literal, URIRef
 from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
-from utils import SCM, get_iris, get_literals, write_progress
+from utils import SCM, get_iris, get_literals
+
+setup_logging()
+logger = logging.getLogger(__name__)
 
 
 def convert(source: Path, id_col: int | None = 0) -> Graph:
@@ -30,13 +42,13 @@ def convert(source: Path, id_col: int | None = 0) -> Graph:
         reader = csv.reader(file)
         header = next(reader)
         for i, row in enumerate(reader, start=1):
-            write_progress(i, message=f"Processing {source.name}")
+            logger.info(f"processing row {i}")
 
             # if the source does not contain a unique identifier, create one
-            if not id_col:
+            if id_col is None:
                 s = BASE[str(uuid4())]
             else:
-                s = BASE[row[str(id_col)]]
+                s = BASE[str(row[id_col])]
 
             # add row metadata
             g.add((s, RDF.type, DCAT.Resource))
@@ -63,5 +75,15 @@ def convert(source: Path, id_col: int | None = 0) -> Graph:
 
 
 if __name__ == "__main__":
-    graph += convert(input_dir / "example.csv")
-    graph.serialize(destination=output_dir / "example.ttl", format="turtle")
+    input_file = input_dir / "example.csv"
+    output_file = output_dir / "example.trig"
+
+    named_graph = NAMED_GRAPH[input_file.stem]
+    dataset = Dataset()
+    g = dataset.graph(named_graph)
+
+    g += ns_graph + convert(input_file)
+
+    logger.info("serializing results")
+    dataset.serialize(destination=output_file, format="trig")
+    logger.info("done")
